@@ -31,51 +31,12 @@ Adds:
 DATA:
 - Coinbase Exchange public candles (no API key)
 """
-
+from config import *
 import time
 import requests
 from dataclasses import dataclass
 from typing import List, Tuple, Optional, Dict, Any
 from datetime import datetime
-
-
-# =========================
-# CONFIG
-# =========================
-
-# Coinbase product IDs (USD pairs are usually most available)
-BTC_PRODUCT = "BTC-USD"
-XRP_PRODUCT = "XRP-USD"
-
-GRANULARITY = 60   # 60 seconds = 1m candles
-LIMIT = 200
-
-# --- BTC stability ---
-BTC_HOLD_MINUTES = 15
-BTC_CONTEXT_MINUTES = 30
-BTC_LEVEL_BUFFER = 0.0005  # 0.05% buffer above "level" for closes
-
-# --- XRP structure ---
-XRP_BREAK_LOW = 1.600
-XRP_BREAK_HIGH = 1.602
-XRP_PULLBACK_FLOOR = 1.595
-XRP_HOLD_CANDLES = 3
-
-# --- Momentum ---
-STRONG_GREEN_BODY_PCT = 0.45
-CLOSE_NEAR_HIGH_PCT = 0.75
-FOLLOW_THROUGH_MIN_PCT = 0.0005
-
-# --- Runtime ---
-POLL_SECONDS = 15
-ALERT_COOLDOWN_SECONDS = 300
-
-# Alerts / verbosity
-PREALERT_ON_SCORE_1 = True       # prints a “setup forming” line when exactly 1 condition is true
-PRINT_DETAILS_ON_FLIP = True     # when a condition changes, print the associated details
-
-
-COINBASE_CANDLES = "https://api.exchange.coinbase.com/products/{product_id}/candles"
 
 
 # =========================
