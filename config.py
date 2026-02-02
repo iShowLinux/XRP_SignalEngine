@@ -1,38 +1,37 @@
 # ===============================
-# config_trend_continuation_15m.py
-# Designed for: 15m trend continuation after reversal
+# config_htf_reclaim_trend.py
+# Designed for: 1H base -> reclaim -> early trend
 # ===============================
 
-# BTC stability — solid but not overly strict
+# --- BTC stability (HTF confirmation) ---
 BTC_HOLD_MINUTES = 20
-BTC_CONTEXT_MINUTES = 45
+BTC_CONTEXT_MINUTES = 60
 BTC_LEVEL_BUFFER = 0.0008
 
-# XRP structure — trend-based, not range-based
-XRP_BREAK_LOW = 1.630
-XRP_BREAK_HIGH = 1.640
-XRP_PULLBACK_FLOOR = 1.615
-XRP_HOLD_CANDLES = 3
+# --- XRP structure (HTF reclaim) ---
+XRP_BREAK_LOW = 1.620
+XRP_BREAK_HIGH = 1.635
+XRP_PULLBACK_FLOOR = 1.600
+XRP_HOLD_CANDLES = 2   # on 1H, 2 closes is meaningful
 
-# Momentum — healthy impulse, not spike-chasing
-STRONG_GREEN_BODY_PCT = 0.48
-CLOSE_NEAR_HIGH_PCT = 0.72
+# --- Momentum (HTF-friendly, not scalp-tight) ---
+STRONG_GREEN_BODY_PCT = 0.40
+CLOSE_NEAR_HIGH_PCT = 0.68
 FOLLOW_THROUGH_MIN_PCT = 0.0007
 
-# Runtime — slower because 15m timeframe
-POLL_SECONDS = 30
-ALERT_COOLDOWN_SECONDS = 900
+# --- Runtime / alerts ---
+POLL_SECONDS = 60              # 1H chart = slower polling
+ALERT_COOLDOWN_SECONDS = 900   # avoid spam
 
-# Alerts / verbosity
+# --- UX ---
 PREALERT_ON_SCORE_1 = True
 PRINT_DETAILS_ON_FLIP = True
 
-# Products
+# --- Market ---
 BTC_PRODUCT = "BTC-USD"
 XRP_PRODUCT = "XRP-USD"
 
-# Candle settings
-GRANULARITY = 900   # 15-minute candles
+GRANULARITY = 3600   # 1H candles
 LIMIT = 200
 
 COINBASE_CANDLES = "https://api.exchange.coinbase.com/products/{product_id}/candles"
