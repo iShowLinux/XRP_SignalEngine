@@ -7,8 +7,8 @@
 #   as long as the setup quality is higher and false positives are reduced.
 #
 # Best market regime:
-#   Base already formed, reclaim underway, trend developing.
-#   You want confirmation, not prediction.
+#   Base formed and compressing, reclaim attempts possible.
+#   You want acceptance above resistance, not mid-range chop.
 # ===============================
 
 
@@ -21,49 +21,57 @@ BTC_HOLD_MINUTES = 30
 # BTC_CONTEXT_MINUTES:
 #   How far back we look to define BTC's local "level" and stability context.
 #   Higher = smoother / more reliable, but slower to adapt.
-BTC_CONTEXT_MINUTES = 90
+BTC_CONTEXT_MINUTES = 120   # was 90 (more smoothing for choppy sessions)
 
 # BTC_LEVEL_BUFFER:
 #   Extra cushion above/below the BTC "level" used to avoid micro-wick false flips.
 #   Higher = stricter stability requirement.
-#   0.0010 = 0.10%
-BTC_LEVEL_BUFFER = 0.0010
+#   0.0012 = 0.12%
+BTC_LEVEL_BUFFER = 0.0012   # was 0.0010
 
 
 # --- XRP structure (reclaim & invalidation) ----------------------------------
 # XRP_BREAK_LOW / XRP_BREAK_HIGH:
 #   Breakout / reclaim zone for XRP. Price must break into/above this zone to qualify.
 #   Conservative config uses higher reclaim levels to avoid chop.
-XRP_BREAK_LOW = 1.635
-XRP_BREAK_HIGH = 1.650
+#
+# Tweaked to sit ABOVE the current base/range ceiling (~1.62–1.63),
+# so you don't get "long" signals inside the range.
+XRP_BREAK_LOW = 1.625        # was 1.635
+XRP_BREAK_HIGH = 1.645       # was 1.650
 
 # XRP_PULLBACK_FLOOR:
 #   The "structure floor" (invalidation level). If price loses this, the long thesis fails.
 #   Set this to a real support zone on your chart (not random).
-XRP_PULLBACK_FLOOR = 1.610
+#
+# Tweaked toward the base support area (~1.58–1.59) so minor noise doesn't kill the thesis,
+# but a real breakdown does.
+XRP_PULLBACK_FLOOR = 1.585   # was 1.610
 
 # XRP_HOLD_CANDLES:
 #   Number of *closed* candles that must hold above the breakout zone to count as "accepted".
 #   Higher = fewer fake breakouts. Lower = earlier signals.
-XRP_HOLD_CANDLES = 3
+#
+# In a range environment, 2 closes is a strong acceptance filter without being too slow.
+XRP_HOLD_CANDLES = 2         # was 3
 
 
 # --- Momentum confirmation ---------------------------------------------------
 # STRONG_GREEN_BODY_PCT:
 #   Minimum green candle body size as a fraction of total candle range.
 #   Higher = stricter (requires real demand). Lower = more signals.
-STRONG_GREEN_BODY_PCT = 0.45
+STRONG_GREEN_BODY_PCT = 0.50  # was 0.45 (ranges lie; require stronger bodies)
 
 # CLOSE_NEAR_HIGH_PCT:
 #   How close the close must be to the high, as a fraction of the candle range.
 #   Higher = stronger closes (less likely to be rejected).
-CLOSE_NEAR_HIGH_PCT = 0.72
+CLOSE_NEAR_HIGH_PCT = 0.80    # was 0.72 (avoid weak closes that fade)
 
 # FOLLOW_THROUGH_MIN_PCT:
 #   Minimum follow-through move after the signal candle.
 #   Higher = avoids one-candle pumps, but signals later.
-#   0.0010 = 0.10%
-FOLLOW_THROUGH_MIN_PCT = 0.0010
+#   0.0012 = 0.12%
+FOLLOW_THROUGH_MIN_PCT = 0.0012  # was 0.0010
 
 
 # --- Runtime / alert behavior ------------------------------------------------
@@ -75,7 +83,9 @@ POLL_SECONDS = 60
 # ALERT_COOLDOWN_SECONDS:
 #   Minimum time between alerts (prevents spam).
 #   Conservative profile uses longer cooldown.
-ALERT_COOLDOWN_SECONDS = 1200  # 20 minutes
+#
+# In a choppy base, extend cooldown to reduce repeat alerts.
+ALERT_COOLDOWN_SECONDS = 1800  # was 1200 (30 minutes)
 
 
 # --- Output settings ---------------------------------------------------------
